@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelajah Malaysia - Barat & Sabah | Pemandu Wisata Interaktif</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind config for custom fonts & dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100">
+
+    <!-- NAV BAR -->
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 transition-colors duration-300 dark:bg-slate-900/80 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl font-serif font-bold bg-gradient-to-r from-emerald-500 via-teal-600 to-blue-600 bg-clip-text text-transparent">Jelajah Malaysia</span>
+                    <span class="hidden md:inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">Explore</span>
+                </div>
+
+                <!-- Navigation Links - Desktop -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#beranda" class="text-sm font-medium hover:text-emerald-500 transition-colors">Beranda</a>
+                    <a href="#destinasi" class="text-sm font-medium hover:text-emerald-500 transition-colors">Destinasi</a>
+                    <a href="#quiz" class="text-sm font-medium hover:text-emerald-500 transition-colors">Cari Wisata</a>
+                    <a href="#favorit" class="text-sm font-medium hover:text-emerald-500 transition-colors flex items-center">
+                        Favorit
+                        <span id="fav-count" class="ml-1 px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full font-bold">0</span>
+                    </a>
+                </div>
+
+                <!-- Right Menu: Dark Mode & Hamburger -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle Button -->
+                    <button id="theme-toggle" class="p-2.5 text-slate-500 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-300 dark:text-slate-400 dark:hover:text-emerald-400 dark:focus:ring-emerald-800 rounded-lg text-sm transition-colors duration-200">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg hidden"></i>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none transition-colors">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors duration-300">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#beranda" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-500 transition-colors">Beranda</a>
+                <a href="#destinasi" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-500 transition-colors">Destinasi</a>
+                <a href="#quiz" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-500 transition-colors">Cari Wisata</a>
+                <a href="#favorit" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-500 transition-colors flex justify-between items-center">
+                    <span>Destinasi Favorit</span>
+                    <span id="fav-count-mobile" class="px-2 py-0.5 text-xs bg-red-500 text-white rounded-full font-bold">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="beranda" class="relative overflow-hidden py-20 lg:py-32 bg-slate-900 text-white">
+        <!-- Background Overlay Patterns & Gradients -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-900/50 via-slate-900 to-slate-900 opacity-90 z-0"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500 rounded-full blur-[128px] opacity-20 z-0"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600 rounded-full blur-[128px] opacity-20 z-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Hero Text Info -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/25">
+                        <i class="fa-solid fa-map-location-dot mr-1.5 animate-pulse"></i>
+                        Eksplorasi Keindahan Dua Wilayah
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-black tracking-tight leading-tight">
+                        Dari Gemerlap <span class="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Malaysia Barat</span> hingga Liarnya <span class="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Sabah</span>
+                    </h1>
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
+                        Temukan pesona budaya, gedung-gedung pencakar langit yang ikonik di Semenanjung Malaysia (Barat), hingga keajaiban bawah laut, hutan hujan murni, dan puncak megah Gunung Kinabalu di Sabah.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                        <a href="#destinasi" class="px-8 py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-emerald-500 to-teal-600 hover:shadow-lg hover:shadow-emerald-500/25 transform hover:-translate-y-0.5 transition duration-200">
+                            Mulai Jelajah
+                        </a>
+                        <a href="#quiz" class="px-8 py-3.5 rounded-full font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition duration-200">
+                            Ikuti Kuis Wisata <i class="fa-solid fa-wand-magic-sparkles ml-1.5 text-emerald-400"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Search and Stats Card -->
+                <div class="lg:col-span-5">
+                    <div class="bg-slate-800/80 backdrop-blur-md border border-slate-700 p-6 sm:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+                        <h3 class="text-xl font-serif font-bold mb-4 flex items-center">
+                            <i class="fa-solid fa-magnifying-glass text-emerald-400 mr-2.5"></i> Cari Destinasi Impian
+                        </h3>
+                        <div class="space-y-4">
+                            <!-- Hero Search Bar -->
+                            <div class="relative">
+                                <input type="text" id="hero-search" placeholder="Cari nama kota, pantai, gunung..." class="w-full pl-11 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-slate-400 text-white text-sm transition">
+                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            </div>
+
+                            <!-- Category Quick Filter -->
+                            <div>
+                                <p class="text-xs text-slate-400 font-medium mb-2.5">KATEGORI POPULER</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="quick-cat bg-slate-900/60 hover:bg-emerald-600 hover:text-white border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer" data-cat="Alam">Alam</button>
+                                    <button class="quick-cat bg-slate-900/60 hover:bg-emerald-600 hover:text-white border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer" data-cat="Budaya">Budaya</button>
+                                    <button class="quick-cat bg-slate-900/60 hover:bg-emerald-600 hover:text-white border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer" data-cat="Modern">Modern</button>
+                                    <button class="quick-cat bg-slate-900/60 hover:bg-emerald-600 hover:text-white border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer" data-cat="Pantai">Pantai</button>
+                                </div>
+                            </div>
+
+                            <hr class="border-slate-700">
+
+                            <!-- Mini Stats -->
+                            <div class="grid grid-cols-3 gap-2 text-center pt-2">
+                                <div>
+                                    <span class="block text-2xl font-bold text-emerald-400 font-serif">12+</span>
+                                    <span class="text-[10px] text-slate-400 uppercase tracking-wider">Destinasi Utama</span>
+                                </div>
+                                <div>
+                                    <span class="block text-2xl font-bold text-teal-400 font-serif">2</span>
+                                    <span class="text-[10px] text-slate-400 uppercase tracking-wider">Wilayah Utama</span>
+                                </div>
+                                <div>
+                                    <span class="block text-2xl font-bold text-blue-400 font-serif">4.8</span>
+                                    <span class="text-[10px] text-slate-400 uppercase tracking-wider">Avg. Rating</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- DESTINASI WISATA SECTION -->
+    <section id="destinasi" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h2 class="text-3xl sm:text-4xl font-serif font-black mb-3">Eksplorasi Destinasi Wisata</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-4"></div>
+            <p class="text-slate-500 dark:text-slate-400">
+                Gunakan filter di bawah ini untuk menjelajahi tempat wisata di Semenanjung Malaysia Barat yang kaya sejarah dan Sabah yang memiliki pesona alam menakjubkan.
+            </p>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl p-5 shadow-sm mb-8 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <!-- Regions Tabs -->
+                <div class="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl self-start">
+                    <button class="region-tab px-4 py-2 text-sm font-semibold rounded-lg transition-all" data-region="all">
+                        Semua Wisata
+                    </button>
+                    <button class="region-tab px-4 py-2 text-sm font-semibold rounded-lg transition-all" data-region="west">
+                        Malaysia Barat
+                    </button>
+                    <button class="region-tab px-4 py-2 text-sm font-semibold rounded-lg transition-all" data-region="sabah">
+                        Sabah (Timur)
+                    </button>
+                </div>
+
+                <!-- Input Search and Sorting -->
+                <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                    <!-- Search Input -->
+                    <div class="relative flex-grow sm:w-64">
+                        <input type="text" id="search-input" placeholder="Cari nama destinasi..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 dark:bg-slate-900 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    </div>
+                    <!-- Sorting Dropdown -->
+                    <select id="sort-select" class="px-3 py-2 bg-slate-50 border border-slate-200 dark:bg-slate-900 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
+                        <option value="default">Urutkan: Default</option>
+                        <option value="rating-desc">Rating Tertinggi</option>
+                        <option value="name-asc">Nama A-Z</option>
+                        <option value="name-desc">Nama Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Categories Checklist/Pills -->
+            <div class="border-t border-slate-100 dark:border-slate-700 pt-3">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Filter Kategori:</span>
+                <div class="flex flex-wrap gap-2" id="category-filter-container">
+                    <!-- Dynamically populated categories -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Filter Indicator -->
+        <div id="active-filters-info" class="flex flex-wrap items-center gap-2 mb-6 hidden">
+            <span class="text-xs text-slate-500 dark:text-slate-400">Filter aktif:</span>
+            <div id="active-filter-pills" class="flex flex-wrap gap-2"></div>
+            <button id="clear-all-filters" class="text-xs font-bold text-red-500 hover:text-red-600 transition flex items-center ml-2">
+                <i class="fa-solid fa-trash-can mr-1"></i> Bersihkan Semua
+            </button>
+        </div>
+
+        <!-- Tourist Cards Grid -->
+        <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Loading or no items will be shown here, and JS will inject cards -->
+        </div>
+
+        <!-- No Results Placeholder -->
+        <div id="no-results" class="hidden text-center py-20 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 mt-6">
+            <i class="fa-regular fa-face-frown text-5xl text-slate-300 dark:text-slate-600 mb-4"></i>
+            <h4 class="text-lg font-bold">Destinasi Tidak Ditemukan</h4>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Coba sesuaikan kata kunci pencarian atau bersihkan filter Anda.</p>
+        </div>
+    </section>
+
+    <!-- DESTINASI FAVORIT SECTION -->
+    <section id="favorit" class="py-16 bg-emerald-50 dark:bg-slate-850/50 transition-colors duration-300 border-t border-b border-emerald-100/50 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl sm:text-4xl font-serif font-black mb-3 text-emerald-800 dark:text-emerald-400">Destinasi Favorit Anda</h2>
+                <div class="w-16 h-1 bg-emerald-500 mx-auto rounded-full mb-4"></div>
+                <p class="text-slate-600 dark:text-slate-400">
+                    Tempat-tempat pilihan yang Anda simpan untuk rencana perjalanan Anda berikutnya. Disimpan secara lokal di browser Anda.
+                </p>
+            </div>
+
+            <!-- Favorite list container -->
+            <div id="favorites-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamically filled with favorites -->
+            </div>
+
+            <!-- Empty Favorites Placeholder -->
+            <div id="empty-favorites" class="text-center py-12 bg-white/60 dark:bg-slate-850 rounded-2xl border border-dashed border-emerald-200 dark:border-slate-700">
+                <i class="fa-regular fa-heart text-4xl text-slate-300 dark:text-slate-600 mb-3 block"></i>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Belum ada destinasi favorit. Klik ikon hati <i class="fa-regular fa-heart mx-1"></i> pada kartu destinasi untuk menyimpannya.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESTINATION FINDER QUIZ SECTION -->
+    <section id="quiz" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 text-white rounded-3xl overflow-hidden shadow-2xl border border-teal-500/20">
+            <div class="grid grid-cols-1 lg:grid-cols-12">
+                <!-- Left Info Banner -->
+                <div class="lg:col-span-4 p-8 sm:p-12 bg-teal-900/40 border-b lg:border-b-0 lg:border-r border-teal-500/10 flex flex-col justify-between">
+                    <div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 mb-4 border border-emerald-500/30">
+                            Fitur Cerdas
+                        </span>
+                        <h2 class="text-3xl font-serif font-bold leading-tight mb-4">Temukan Wisata Idealmu!</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Bingung ingin memilih destinasi petualangan tropis di Sabah atau wisata sejarah dan belanja modern di Malaysia Barat? Ikuti kuis singkat 4 langkah ini untuk mendapatkan rekomendasi personal.
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 text-xs text-slate-400">
+                        <i class="fa-solid fa-clock text-emerald-400"></i>
+                        <span>Hanya memakan waktu 30 detik</span>
+                    </div>
+                </div>
+
+                <!-- Right Interactive Quiz Container -->
+                <div class="lg:col-span-8 p-8 sm:p-12 relative flex flex-col justify-center min-h-[400px]">
+                    <!-- Quiz Intro State -->
+                    <div id="quiz-intro" class="space-y-6">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-2xl font-bold">Rekomendasi Wisata yang Disesuaikan</h3>
+                            <p class="text-slate-300 text-sm mt-2">Bantu kami mengetahui preferensi perjalanan Anda dan kami akan menyaring destinasi paling cocok.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 py-2">
+                            <div class="p-4 bg-slate-800/60 rounded-xl text-center border border-slate-700/50">
+                                <i class="fa-solid fa-compass text-2xl text-emerald-400 mb-2"></i>
+                                <h4 class="text-sm font-semibold">1. Preferensi Gaya</h4>
+                            </div>
+                            <div class="p-4 bg-slate-800/60 rounded-xl text-center border border-slate-700/50">
+                                <i class="fa-solid fa-users text-2xl text-teal-400 mb-2"></i>
+                                <h4 class="text-sm font-semibold">2. Teman Travel</h4>
+                            </div>
+                            <div class="p-4 bg-slate-800/60 rounded-xl text-center border border-slate-700/50">
+                                <i class="fa-solid fa-cloud-sun text-2xl text-blue-400 mb-2"></i>
+                                <h4 class="text-sm font-semibold">3. Tipe Suasana</h4>
+                            </div>
+                        </div>
+                        <div class="flex justify-center sm:justify-start">
+                            <button id="start-quiz-btn" class="px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl font-bold text-white hover:shadow-lg hover:shadow-emerald-500/25 transition cursor-pointer">
+                                Mulai Kuis Sekarang <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Quiz State (Step 1-4) -->
+                    <div id="quiz-active" class="hidden space-y-6">
+                        <!-- Progress Bar -->
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1">
+                                <span id="quiz-progress-text">Langkah 1 dari 4</span>
+                                <span id="quiz-progress-percent">25%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div id="quiz-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-1.5 rounded-full transition-all duration-300" style="width: 25%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Question Title -->
+                        <h3 id="quiz-question" class="text-xl font-bold font-serif">Pertanyaan?</h3>
+
+                        <!-- Options Grid -->
+                        <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- Actions Nav -->
+                        <div class="flex justify-between items-center border-t border-slate-800 pt-4">
+                            <button id="quiz-prev-btn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-semibold text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center">
+                                <i class="fa-solid fa-chevron-left mr-2"></i> Kembali
+                            </button>
+                            <span class="text-xs text-slate-500">Pilih opsi untuk melanjutkan</span>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Results State -->
+                    <div id="quiz-result" class="hidden space-y-6">
+                        <div class="text-center">
+                            <div class="inline-flex p-3 bg-emerald-500/10 text-emerald-400 rounded-full mb-3 border border-emerald-500/20">
+                                <i class="fa-solid fa-circle-check text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold font-serif">Rekomendasi Destinasi Anda!</h3>
+                            <p class="text-slate-300 text-sm mt-1">Berdasarkan kecocokan preferensi perjalanan yang Anda berikan.</p>
+                        </div>
+
+                        <!-- Recommendations list -->
+                        <div id="quiz-recommendations-list" class="space-y-3.5 max-h-[250px] overflow-y-auto pr-1">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- Reset action -->
+                        <div class="flex flex-col sm:flex-row justify-center gap-3 pt-3 border-t border-slate-800">
+                            <button id="reset-quiz-btn" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-sm font-semibold transition cursor-pointer">
+                                Ulangi Kuis
+                            </button>
+                            <a href="#destinasi" id="view-all-destinations-quiz" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-semibold text-center transition">
+                                Jelajahi Semua Destinasi
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING CHAT / INFO BUBBLE FOR FUN TRIVIA -->
+    <div class="fixed bottom-6 right-6 z-30">
+        <div id="trivia-container" class="relative">
+            <!-- Trivia Pop-up Bubble -->
+            <div id="trivia-bubble" class="hidden absolute bottom-16 right-0 w-80 p-5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-xl transition-all duration-300 transform translate-y-2 opacity-0">
+                <!-- Close Button -->
+                <button id="close-trivia-btn" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <span class="inline-block px-2.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200 dark:border-amber-900 rounded-full mb-2">
+                    <i class="fa-solid fa-lightbulb mr-1 text-amber-500"></i> Fakta Menarik
+                </span>
+                <p id="trivia-text" class="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                    Tahukah kamu? Gunung Kinabalu di Sabah adalah salah satu puncak tertinggi di Asia Tenggara dan rumah bagi ratusan spesies anggrek langka.
+                </p>
+                <div class="flex justify-between items-center mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700">
+                    <span class="text-[10px] text-slate-400">Pemandu Trivia</span>
+                    <button id="next-trivia-btn" class="text-xs font-bold text-emerald-500 hover:text-emerald-600 transition flex items-center">
+                        Fakta Lain <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Floating Button -->
+            <button id="trivia-btn" class="w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-emerald-500/30 hover:scale-105 active:scale-95 transform transition duration-200 focus:outline-none cursor-pointer">
+                <i class="fa-solid fa-lightbulb text-xl animate-bounce"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- DETAIL DESTINASI MODAL -->
+    <div id="detail-modal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div id="modal-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300" aria-hidden="true"></div>
+
+            <!-- Modal Align Trick -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal Content Card -->
+            <div id="modal-card" class="inline-block align-bottom bg-white dark:bg-slate-800 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full border border-slate-100 dark:border-slate-700 opacity-0 translate-y-4 scale-95 duration-300">
+                
+                <!-- Hero Image & Close Button -->
+                <div class="relative h-64 sm:h-80 w-full overflow-hidden">
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                    <!-- Image Gradient Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                    <!-- Close button in modal -->
+                    <button id="close-modal-btn" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white backdrop-blur-md rounded-full w-10 h-10 flex items-center justify-center transition focus:outline-none">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+
+                    <!-- Title on Image bottom -->
+                    <div class="absolute bottom-4 left-6 right-6 text-white">
+                        <div class="flex flex-wrap gap-2 mb-2" id="modal-categories">
+                            <!-- Injected dynamically -->
+                        </div>
+                        <h3 id="modal-title-text" class="text-2xl sm:text-3xl font-serif font-black tracking-tight leading-tight"></h3>
+                        <p class="text-xs text-emerald-300 mt-1 flex items-center">
+                            <i class="fa-solid fa-location-dot mr-1"></i> <span id="modal-location"></span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="p-6 sm:p-8 space-y-6">
+                    <!-- Rating and Quick Stats -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+                        <div>
+                            <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider">Rating</span>
+                            <span class="text-sm font-bold flex items-center justify-center mt-1 text-amber-500">
+                                <i class="fa-solid fa-star mr-1"></i> <span id="modal-rating" class="text-slate-800 dark:text-slate-100 font-bold">4.8</span>
+                            </span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider">Wilayah</span>
+                            <span id="modal-region-badge" class="inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300">Malaysia Barat</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider">Waktu Terbaik</span>
+                            <span id="modal-best-time" class="text-xs text-slate-600 dark:text-slate-300 font-medium block mt-1 truncate max-w-full">Sepanjang Tahun</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider">Biaya Masuk</span>
+                            <span id="modal-entry-fee" class="text-xs text-slate-600 dark:text-slate-300 font-medium block mt-1 truncate max-w-full">Mulai RM 35</span>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="space-y-2">
+                        <h4 class="font-serif font-bold text-lg border-b border-slate-100 dark:border-slate-700 pb-1.5 flex items-center">
+                            <i class="fa-solid fa-file-lines text-emerald-500 mr-2"></i> Deskripsi Destinasi
+                        </h4>
+                        <p id="modal-description" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Key Highlights -->
+                        <div class="space-y-2">
+                            <h4 class="font-serif font-bold text-base border-b border-slate-100 dark:border-slate-700 pb-1.5 flex items-center">
+                                <i class="fa-solid fa-star-of-life text-emerald-500 mr-2 text-xs"></i> Sorotan Utama
+                            </h4>
+                            <ul id="modal-highlights" class="text-xs space-y-1.5 text-slate-600 dark:text-slate-300 list-disc list-inside">
+                                <!-- Injected dynamically -->
+                            </ul>
+                        </div>
+
+                        <!-- Tips & Advice Box -->
+                        <div class="p-4 bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/50 rounded-2xl space-y-1.5">
+                            <h4 class="font-bold text-emerald-800 dark:text-emerald-300 text-sm flex items-center">
+                                <i class="fa-solid fa-lightbulb text-amber-500 mr-2 animate-pulse"></i> Tips Berwisata
+                            </h4>
+                            <p id="modal-tips" class="text-xs leading-relaxed text-emerald-900/90 dark:text-emerald-300/80"></p>
+                        </div>
+                    </div>
+
+                    <!-- Footer Actions in Modal -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                        <button id="modal-fav-btn" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-rose-200 text-rose-500 hover:bg-rose-50 dark:border-rose-950 dark:hover:bg-rose-950/30 font-semibold text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-heart" id="modal-fav-icon"></i>
+                            <span id="modal-fav-text">Simpan ke Favorit</span>
+                        </button>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <a id="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" class="flex-grow sm:flex-grow-0 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-semibold text-xs text-center transition hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-map"></i> Lihat Peta
+                            </a>
+                            <button id="modal-close-action-btn" class="flex-grow sm:flex-grow-0 px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs text-center transition">
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 transition-colors duration-300 dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Branding and intro -->
+                <div class="space-y-4 col-span-1 md:col-span-2">
+                    <span class="text-xl font-serif font-bold text-white">Jelajah Malaysia</span>
+                    <p class="text-xs leading-relaxed max-w-sm">
+                        Sebuah portal pariwisata interaktif yang menampilkan destinasi pilihan terbaik di Malaysia Barat dan Sabah. Temukan keunikan alam tropis, keanekaragaman budaya, dan modernitas perkotaan.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Navigation Quick links -->
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider">Tautan Cepat</h4>
+                    <ul class="text-xs space-y-2">
+                        <li><a href="#beranda" class="hover:text-white transition">Beranda</a></li>
+                        <li><a href="#destinasi" class="hover:text-white transition">Destinasi Wisata</a></li>
+                        <li><a href="#quiz" class="hover:text-white transition">Temukan Wisata (Kuis)</a></li>
+                        <li><a href="#favorit" class="hover:text-white transition">Tempat Favorit Saya</a></li>
+                    </ul>
+                </div>
+
+                <!-- Disclaimer and tech info -->
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider">Teknologi & Fitur</h4>
+                    <p class="text-xs leading-relaxed">
+                        Dibangun menggunakan HTML5, Tailwind CSS, dan Vanilla JavaScript. Dilengkapi dengan Dark/Light Mode, Filter Kategori Interaktif, Kuis Rekomendasi Pintar, dan Penyimpanan Lokal (LocalStorage).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Copyright area -->
+            <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+                <span>&copy; 2026 Jelajah Malaysia. Seluruh Hak Cipta Dilindungi.</span>
+                <span>Dibuat dengan <i class="fa-solid fa-heart text-red-500 animate-pulse"></i> untuk Pecinta Traveling</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>
